@@ -1,3 +1,0 @@
-C:/Users/papej/Desktop/rasyteryzer 2 xd/build/CMakeFiles/rasteryzer.dir
-C:/Users/papej/Desktop/rasyteryzer 2 xd/build/CMakeFiles/edit_cache.dir
-C:/Users/papej/Desktop/rasyteryzer 2 xd/build/CMakeFiles/rebuild_cache.dir

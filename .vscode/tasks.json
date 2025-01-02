@@ -1,20 +1,24 @@
 {
     "version": "2.0.0",
     "tasks": [
-      {
-        "label": "CMake Build",
-        "type": "shell",
-        "command": "cmake",
-        "args": [
-          "--build",
-          "${workspaceFolder}/build"
-        ],
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "problemMatcher": ["$gcc"],
-        "detail": "Generated task by CMake Tools."
-      }
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "camera.c",
+                "draw.c",
+                "-o",
+                "rasteryzer",
+                "-lm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task for compiling C files."
+        }
     ]
-  }
+}

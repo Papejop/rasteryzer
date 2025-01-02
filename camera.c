@@ -2,12 +2,12 @@
 
 int projectionPlaneZ = 1;
 int viewportSize = 1;
-color BLUE = (color){0, 0, 255};
-color RED = (color){255, 0, 0};
-color GREEN = (color){0, 255, 0};
-color YELLOW = (color){255, 255, 0};
-color PURPLE = (color){255, 0, 255};
-color CYAN = (color){0, 255, 255};
+const color BLUE = (color){0, 0, 255};
+const color RED = (color){255, 0, 0};
+const color GREEN = (color){0, 255, 0};
+const color YELLOW = (color){255, 255, 0};
+const color PURPLE = (color){255, 0, 255};
+const color CYAN = (color){0, 255, 255};
 
 typedef struct{
     float x;
@@ -21,6 +21,96 @@ typedef struct{
     int v2;
     color c;
 } triangle;
+
+typedef struct Shape{
+    vertex* vertices;
+    triangle* triangles;
+    int numberOfVertex;
+    int numberOfTriangles;
+} Shape;
+
+vertex pyramidVertices[] = {
+    {600, 1000, 8},
+    {1200, 1000, 8},
+    {600, 1000, 6},
+    {1200, 1000, 6},
+    {900, 600, 7} 
+};
+
+triangle pyramidTriangles[] = {
+    {0, 1, 4, (color){255, 0, 0}},
+    {0, 2, 4, (color){255, 0, 0}},
+    {1, 3, 4, (color){255, 0, 0}},
+    {2, 3, 4, (color){255, 0, 0}},
+    {0, 2, 3, (color){255, 0, 0}}
+};
+
+vertex cubeVertices[] = {
+    {600, 1000, 7.5},
+    {600, 600, 7.5},
+    {1200, 600, 7.5},
+    {1200, 1000, 7.5},
+    {600, 1000, 10},
+    {600, 600, 10},
+    {1200, 600, 10},
+    {1200, 1000, 10}
+};
+
+triangle cubeTriangles[] = {
+    {0, 1, 2, (color){255, 0, 0}},
+    {0, 2, 3, (color){255, 0, 0}},
+    {0, 1, 5, (color){255, 0, 0}},
+    {0, 5, 4, (color){255, 0, 0}},
+    {1, 2, 6, (color){255, 0, 0}},
+    {1, 6, 5, (color){255, 0, 0}},
+    {2, 3, 7, (color){255, 0, 0}},
+    {2, 7, 6, (color){255, 0, 0}},
+    {3, 0, 4, (color){255, 0, 0}},
+    {3, 4, 7, (color){255, 0, 0}},
+    {4, 5, 6, (color){255, 0, 0}}
+};
+
+struct Shape cube = {
+    .vertices = &cubeVertices[0],
+    .triangles = &cubeTriangles[0],
+    .numberOfVertex = 8,
+    .numberOfTriangles = 11
+};
+
+struct Shape pyramid = {
+    .vertices = &pyramidVertices[0],
+    .triangles = &pyramidTriangles[0],
+    .numberOfVertex = 5,
+    .numberOfTriangles = 5
+};
+
+Shape initializeShape(Shape shapeTemplate, color ofnewColor)
+{
+    Shape newShape;
+    int i;
+
+    newShape.vertices = malloc(shapeTemplate.numberOfVertex * sizeof(vertex));
+    newShape.triangles = malloc(shapeTemplate.numberOfTriangles * sizeof(triangle));
+    if(!newShape.vertices || !newShape.triangles)
+    {
+        printf("Failed to allocate memory for shape vertices\n");
+        exit(1);
+    }
+
+    newShape.numberOfVertex = shapeTemplate.numberOfVertex;
+    newShape.numberOfTriangles = shapeTemplate.numberOfTriangles;
+
+    for(i = 0; i < shapeTemplate.numberOfVertex; ++i)
+        newShape.vertices[i] = shapeTemplate.vertices[i];
+
+    for(i = 0; i < shapeTemplate.numberOfTriangles; ++i)
+    {
+        newShape.triangles[i] = shapeTemplate.triangles[i];
+        newShape.triangles[i].c = ofnewColor;
+    }
+
+    return newShape;
+}
 
 point ViewportToCanvas(float x, float y)
 {
@@ -60,44 +150,12 @@ int main()
     
     int viewportSize = 1;
     int projectionPlaneZ = 1; 
-    vertex A, B, C, D, E, F, G, H;
 
-    A = (vertex){600.0, 1000.0, 5};
-    B = (vertex){600.0, 600.0, 5};
-    C = (vertex){1200.0, 600.0, 5};
-    D = (vertex){1200.0, 1000.0, 5};
+    Shape newShape = initializeShape(pyramid, BLUE);
+    //Shape newShape2 = initializeShape(pyramid, BLUE);
 
-    E = (vertex){600.0, 1000.0, 7.5};
-    F = (vertex){600.0, 600.0, 7.5};
-    G = (vertex){1200.0, 600.0, 7.5};
-    H = (vertex){1200.0, 1000.0, 7.5};
-    
-
-    vertex *vertices = (vertex *)malloc(8 * sizeof(vertex));
-    triangle *triangles = (triangle *)malloc(11 * sizeof(triangle));
-
-    triangles[0] = (triangle){0, 1, 2, BLUE};
-    triangles[1] = (triangle){0, 2, 3, BLUE};
-    triangles[2] = (triangle){0, 1, 5, GREEN};
-    triangles[3] = (triangle){0, 5, 4, GREEN};
-    triangles[4] = (triangle){1, 2, 6, YELLOW};
-    triangles[5] = (triangle){1, 6, 5, YELLOW};
-    triangles[6] = (triangle){2, 3, 7, RED};
-    triangles[7] = (triangle){2, 7, 6, RED};
-    triangles[8] = (triangle){3, 0, 4, PURPLE};
-    triangles[9] = (triangle){3, 4, 7, PURPLE};
-    triangles[10] = (triangle){4, 5, 6, CYAN};
-    vertices[0] = A;
-    vertices[1] = B;
-    vertices[2] = C;
-    vertices[3] = D;
-    vertices[4] = E;
-    vertices[5] = F;
-    vertices[6] = G;
-    vertices[7] = H;
-
-
-    RenderObject(triangles, 11, vertices, 8);
+    RenderObject(newShape.triangles, newShape.numberOfTriangles, newShape.vertices, newShape.numberOfVertex);
+    //RenderObject(triangles, 11, vertices, 8);
 
     saveToPPM();
 

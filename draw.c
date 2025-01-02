@@ -69,7 +69,6 @@ void saveToPPM() {
 
 void drawPixel(int y, int x, color color) {
     image[y][x] = color;
-    //printf("Drawing pixel at %d %d\n", y, x);
 }
 
 void drawLine(point p0, point p1, color color) {
