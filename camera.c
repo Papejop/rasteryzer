@@ -84,6 +84,12 @@ struct Shape pyramid = {
     .numberOfTriangles = 5
 };
 
+void freeShape(Shape shape)
+{
+    free(shape.vertices);
+    free(shape.triangles);
+}
+
 Shape initializeShape(Shape shapeTemplate, color ofnewColor)
 {
     Shape newShape;
@@ -161,3 +167,5 @@ int main()
 
     return 0;
 }
+
+
