@@ -7,11 +7,16 @@
             "command": "gcc",
             "args": [
                 "-g",
-                "camera.c",
-                "draw.c",
+                "${workspaceFolder}/camera.c",
+                "${workspaceFolder}/draw.c",
+                "${workspaceFolder}/window.c",
+                "${workspaceFolder}/windowbuffer.c",
                 "-o",
-                "rasteryzer",
-                "-lm"
+                "${workspaceFolder}/rasteryzer.exe",
+                "-lm",
+                "-lgdi32",
+                "-municode",
+                "-mwindows"
             ],
             "group": {
                 "kind": "build",

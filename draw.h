@@ -1,5 +1,3 @@
-#ifndef MAIN_H
-#define MAIN_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,5 +35,3 @@ void drawLine(point p0, point p1, color color);
 void drawFilledTriangle(point p0, point p1, point p2, color color);
 void drawShadedTriangle(point p0, point p1, point p2, color basicColor);
 void drawWireFrameTriangle(point p0, point p1, point p2, color color);
-
-#endif // MAIN_H
