@@ -42,5 +42,10 @@ extern Shape pyramid;
 
 void freeShape(Shape shape);
 Shape initializeShape(Shape shapeTemplate, color ofnewColor);
+point ViewportToCanvas(float x, float y);
+point projectVertex(vertex v);
+void RenderTriangle(triangle triangle, point *projected);
+void RenderObject(triangle *triangles, int sizeT, vertex *vertecies, int sizeV);
+void RenderScene();
 
 #endif // CAMERA_H

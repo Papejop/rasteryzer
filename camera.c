@@ -97,3 +97,50 @@ Shape initializeShape(Shape shapeTemplate, color ofnewColor)
 
     return newShape;
 }
+
+point ViewportToCanvas(float x, float y)
+{
+    point p;
+    p.x = x / viewportSize;
+    p.y = y / viewportSize;
+    return p;
+}
+
+point projectVertex(vertex v)
+{
+    point p;
+    p.x = v.x * projectionPlaneZ / v.z;
+    p.y = (float)(v.y * projectionPlaneZ / v.z);
+    p = ViewportToCanvas(p.x, p.y);
+    return p;
+}
+
+void RenderTriangle(triangle triangle, point *projected)
+{
+    drawWireFrameTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], triangle.c);
+}
+
+void RenderObject(triangle *triangles, int sizeT, vertex *vertecies, int sizeV)
+{
+    point *projected = (point *)malloc(sizeV * sizeof(point));
+    int i, t;
+    for(i = 0; i < sizeV; i++)
+        projected[i] = projectVertex(vertecies[i]);
+    for(t = 0; t < sizeT; t++)
+        RenderTriangle(triangles[t], projected);
+    free(projected);
+}
+
+void RenderScene()
+{
+    initializeImageArray();
+    
+    int viewportSize = 1;
+    int projectionPlaneZ = 1; 
+    Shape newShape = initializeShape(pyramid, BLUE);
+    //Shape newShape2 = initializeShape(pyramid, BLUE);
+    RenderObject(newShape.triangles, newShape.numberOfTriangles, newShape.vertices, newShape.numberOfVertex);
+
+    //RenderObject(triangles, 11, vertices, 8);
+    //saveToPPM();
+}
