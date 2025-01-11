@@ -2,6 +2,7 @@
 #define WINDOWBUFFER_H
 
 #include <windows.h>
+#include "camera.h"
 
 typedef struct WindowBuffer
 {
@@ -11,6 +12,7 @@ typedef struct WindowBuffer
     BITMAPINFO bitmapInfo;
 } WindowBuffer;
 
+void FillBuffer(WindowBuffer* buffer);
 void InitializeBuffer(WindowBuffer* buffer, int width, int height);
 void RenderBitmap(WindowBuffer* buffer, HDC hdc);
 

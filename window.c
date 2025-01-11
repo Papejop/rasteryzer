@@ -72,6 +72,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 int width = rect.right - rect.left;
                 int height = rect.bottom - rect.top;
                 InitializeBuffer(&buffer, width, height);
+                FillBuffer(&buffer);
                 return 0;
                 // initialize buffer here and do some other stuff too
             }

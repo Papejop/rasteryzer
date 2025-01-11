@@ -1,6 +1,5 @@
 #include <windows.h>
 #include "windowbuffer.h"
-#include "camera.h"
 
 void InitializeBuffer(WindowBuffer* buffer, int width, int height)
 {
@@ -13,16 +12,37 @@ void InitializeBuffer(WindowBuffer* buffer, int width, int height)
     buffer->bitmapInfo.bmiHeader.biPlanes = 1;
     buffer->bitmapInfo.bmiHeader.biBitCount = 32;
     buffer->bitmapInfo.bmiHeader.biCompression = BI_RGB;
-
     int bitmapMemorySize = buffer->width * buffer->height * 4;
-    buffer->memory = (unsigned char*)VirtualAlloc(0, bitmapMemorySize, MEM_COMMIT, PAGE_READWRITE);
+    buffer->memory = (unsigned char*)VirtualAlloc(0, bitmapMemorySize, MEM_COMMIT, PAGE_READWRITE); //TODO figure out when to free this memory
 
     unsigned int* pixel = (unsigned int*)buffer->memory;
     for (int y = 0; y < buffer->height; ++y)
     {
         for (int x = 0; x < buffer->width; ++x)
         {
-            *pixel++ = 0x00FF0000; // Red color in 0xAARRGGBB format (Alpha, Red, Green, Blue)
+            *pixel++ = 0x00FFFFFF; // 0xAARRGGBB format (Alpha, Red, Green, Blue)
+        }
+    }
+}
+
+void FillBuffer(WindowBuffer* buffer)
+{
+    RenderScene();
+    unsigned int* pixel = (unsigned int*)buffer->memory;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+    unsigned int combinedColor;
+
+    for (int y = 0; y < buffer->height; ++y)
+    {
+        for (int x = 0; x < buffer->width; ++x)
+        {
+            red = image[y][x].red;
+            green = image[y][x].green;
+            blue = image[y][x].blue;
+            combinedColor = (red << 16) | (green << 8) | blue; // 0xAARRGGBB format (Alpha, Red, Green, Blue)
+            *pixel++ = combinedColor; 
         }
     }
 }
