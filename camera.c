@@ -1,7 +1,7 @@
 #include "camera.h"
 
-int projectionPlaneZ = 1;
-int viewportSize = 1;
+float projectionPlaneZ = 1;
+float viewportSize = 1;
 const color BLUE = {0, 0, 255};
 const color RED = {255, 0, 0};
 const color GREEN = {0, 255, 0};
@@ -36,22 +36,33 @@ vertex cubeVertices[] = {
     {1200, 1000, 10}
 };
 
+vertex cubeVertices2[] = {
+    {-0.5, 0.5, 6}, // front bottom left
+    {-0.5, -0.5, 6}, // front top left
+    {0.5, -0.5, 6}, // front top right
+    {0.5, 0.5, 6}, // front bottom right
+    {-0.5, 0.5, 8}, // back bottom left
+    {-0.5, -0.5, 8}, // back top left
+    {0.5, -0.5, 8}, // back top right
+    {0.5, 0.5, 8}  // back bottom right
+};
+
 triangle cubeTriangles[] = {
-    {0, 1, 2, {255, 0, 0}},
-    {0, 2, 3, {255, 0, 0}},
-    {0, 1, 5, {255, 0, 0}},
-    {0, 5, 4, {255, 0, 0}},
-    {1, 2, 6, {255, 0, 0}},
-    {1, 6, 5, {255, 0, 0}},
-    {2, 3, 7, {255, 0, 0}},
-    {2, 7, 6, {255, 0, 0}},
-    {3, 0, 4, {255, 0, 0}},
-    {3, 4, 7, {255, 0, 0}},
-    {4, 5, 6, {255, 0, 0}}
+    {0, 1, 2, {265, 0, 0}}, // V
+    {0, 2, 3, {255, 0, 0}}, // V
+    {0, 1, 5, {255, 0, 0}}, // V
+    {0, 5, 4, {255, 0, 0}}, // V
+    {1, 2, 6, {255, 0, 0}}, // V
+    {1, 6, 5, {255, 0, 0}}, // V
+    {2, 3, 7, {255, 0, 0}}, // V
+    {2, 7, 6, {255, 0, 0}}, // V
+    {0, 3, 4, {255, 0, 0}}, // V
+    {3, 4, 7, {255, 0, 0}}, // V
+    {4, 5, 6, {255, 0, 0}}  // V
 };
 
 Shape cube = {
-    .vertices = cubeVertices,
+    .vertices = cubeVertices2,
     .triangles = cubeTriangles,
     .numberOfVertex = 8,
     .numberOfTriangles = 11
@@ -98,20 +109,20 @@ Shape initializeShape(Shape shapeTemplate, color ofnewColor)
     return newShape;
 }
 
-point ViewportToCanvas(float x, float y)
+point ViewportToCanvas(point pHelp) // TODO: this 2 functions are highly sus
 {
     point p;
-    p.x = x / viewportSize;
-    p.y = y / viewportSize;
+    p.x = (WIDTH * pHelp.x / viewportSize);
+    p.y = (HEIGHT * pHelp.y / viewportSize);
     return p;
 }
 
 point projectVertex(vertex v)
 {
     point p;
-    p.x = v.x * projectionPlaneZ / v.z;
-    p.y = (float)(v.y * projectionPlaneZ / v.z);
-    p = ViewportToCanvas(p.x, p.y);
+    p.x = v.x * (float)projectionPlaneZ / v.z;
+    p.y = v.y * (float)projectionPlaneZ / v.z;
+    p = ViewportToCanvas(p);
     return p;
 }
 
@@ -137,7 +148,8 @@ void RenderScene()
     
     int viewportSize = 1;
     int projectionPlaneZ = 1; 
-    Shape newShape = initializeShape(pyramid, BLUE);
+    //Shape newShape = initializeShape(pyramid, BLUE);
+    Shape newShape = initializeShape(cube, RED);
     //Shape newShape2 = initializeShape(pyramid, BLUE);
     RenderObject(newShape.triangles, newShape.numberOfTriangles, newShape.vertices, newShape.numberOfVertex);
 

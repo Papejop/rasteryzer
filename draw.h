@@ -13,8 +13,8 @@ typedef struct {
 } color;
 
 typedef struct {
-    float x; // x coordinate is a float to allow pixel shading in interpolation function
-    int y;
+    float x;
+    float y;
 } point;
 
 typedef struct {

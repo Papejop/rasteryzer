@@ -68,7 +68,12 @@ void saveToPPM() {
 }
 
 void drawPixel(int y, int x, color color) {
-    image[y][x] = color;
+    /*
+    if (y < 0 || y >= HEIGHT || x < 0 || x >= WIDTH) {
+        return;
+    }
+    */
+    image[HEIGHT/2 + y - 1][WIDTH/2 + x] = color;
 }
 
 void drawLine(point p0, point p1, color color) {
@@ -136,7 +141,7 @@ void drawFilledTriangle(point p0, point p1, point p2, color color) {
     }
 
     for (y = p0.y; y < p2.y; ++y) {
-        for (x = xLeft.pointer[y - p0.y]; x <= xRight.pointer[y - p0.y]; ++x) {
+        for (x = xLeft.pointer[(int)y - (int)p0.y]; x <= xRight.pointer[(int)y - (int)p0.y]; ++x) {
             drawPixel(y, x, color);
         }
     }
@@ -207,11 +212,11 @@ void drawShadedTriangle(point p0, point p1, point p2, color basicColor) {
     }
 
     for (y = p0.y; y < p2.y; ++y) {
-        hSegment = interpolate(xLeft.pointer[y - p0.y], hLeft.pointer[y - p0.y], xRight.pointer[y - p0.y], hRight.pointer[y - p0.y]);
-        for (x = xLeft.pointer[y - p0.y]; x <= xRight.pointer[y - p0.y]; ++x) {
-            shadedColor.red = basicColor.red * hSegment.pointer[(int)x - (int)xLeft.pointer[y - p0.y]];
-            shadedColor.green = basicColor.green * hSegment.pointer[(int)x - (int)xLeft.pointer[y - p0.y]];
-            shadedColor.blue = basicColor.blue * hSegment.pointer[(int)x - (int)xLeft.pointer[y - p0.y]];
+        hSegment = interpolate(xLeft.pointer[(int)y - (int)p0.y], hLeft.pointer[(int)y - (int)p0.y], xRight.pointer[(int)y - (int)p0.y], hRight.pointer[(int)y - (int)p0.y]);
+        for (x = xLeft.pointer[(int)y - (int)p0.y]; x <= xRight.pointer[(int)y - (int)p0.y]; ++x) {
+            shadedColor.red = basicColor.red * hSegment.pointer[(int)x - (int)xLeft.pointer[(int)y - (int)p0.y]];
+            shadedColor.green = basicColor.green * hSegment.pointer[(int)x - (int)xLeft.pointer[(int)y - (int)p0.y]];
+            shadedColor.blue = basicColor.blue * hSegment.pointer[(int)x - (int)xLeft.pointer[(int)y - (int)p0.y]];
 
             drawPixel(y, x, shadedColor);
         }

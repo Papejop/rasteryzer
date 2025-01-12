@@ -1,10 +1,13 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#define WIDTH 1920
+#define HEIGHT 1080
+
 #include "draw.h"
 
-extern int projectionPlaneZ;
-extern int viewportSize;
+extern float projectionPlaneZ;
+extern float viewportSize;
 extern const color BLUE;
 extern const color RED;
 extern const color GREEN;
@@ -42,7 +45,7 @@ extern Shape pyramid;
 
 void freeShape(Shape shape);
 Shape initializeShape(Shape shapeTemplate, color ofnewColor);
-point ViewportToCanvas(float x, float y);
+point ViewportToCanvas(point pHelper);
 point projectVertex(vertex v);
 void RenderTriangle(triangle triangle, point *projected);
 void RenderObject(triangle *triangles, int sizeT, vertex *vertecies, int sizeV);
