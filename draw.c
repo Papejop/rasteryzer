@@ -68,12 +68,12 @@ void saveToPPM() {
 }
 
 void drawPixel(int y, int x, color color) {
-    /*
-    if (y < 0 || y >= HEIGHT || x < 0 || x >= WIDTH) {
+    int a,b;
+    if (y < -HEIGHT/2 || y >= HEIGHT/2 - 1 || x < -WIDTH/2 || x >= WIDTH/2 - 1) {
         return;
     }
-    */
-    image[HEIGHT/2 + y - 1][WIDTH/2 + x] = color;
+    a=HEIGHT / 2 + y;  b=WIDTH / 2 + x;
+    image[HEIGHT / 2 + y][WIDTH / 2 + x] = color;
 }
 
 void drawLine(point p0, point p1, color color) {
