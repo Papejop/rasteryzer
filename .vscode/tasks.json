@@ -7,10 +7,11 @@
             "command": "gcc",
             "args": [
                 "-g",
-                "${workspaceFolder}/camera.c",
+                "${workspaceFolder}/3Dspace.c",
                 "${workspaceFolder}/draw.c",
                 "${workspaceFolder}/window.c",
                 "${workspaceFolder}/windowbuffer.c",
+                "${workspaceFolder}/MatrixMath.c",
                 "-o",
                 "${workspaceFolder}/rasteryzer.exe",
                 "-lm",
@@ -18,12 +19,11 @@
                 "-municode",
                 "-mwindows"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": ["$gcc"],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
             "detail": "Generated task for compiling C files."
-        }
+        },
     ]
 }

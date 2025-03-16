@@ -5,24 +5,16 @@
 #define HEIGHT 1080
 
 #include "draw.h"
-#include <math.h>
+#include "MatrixMath.h"
 
-extern float projectionPlaneZ;
-extern float viewportSize;
 extern const color BLUE;
 extern const color RED;
 extern const color GREEN;
 extern const color YELLOW;
 extern const color PURPLE;
 extern const color CYAN;
-
-typedef struct {
-    float x;
-    float y;
-    float z;
-} vertex;
-
-typedef struct {
+//TODO: refactor this triangle to have 3 pointers to vertex instead of 3 values - need to change a lot of code
+typedef struct triangle{
     int v0;
     int v1;
     int v2;
@@ -34,34 +26,42 @@ typedef struct Shape {
     triangle* triangles;
     int numberOfVertex;
     int numberOfTriangles;
+    vertex4d boundsCenter;
+    float boundsRadius;
 } Shape;
 
 typedef struct Object {
     Shape typeOfShape;
-    vertex scaleOfObject;
+    matrix4x4 rotation;
     vertex locationOfObject;
-    vertex centerOfObject;
+    float scaleOfObject;
 } Object;
 
-extern vertex pyramidVertices[];
-extern triangle pyramidTriangles[];
-extern vertex cubeVertices[];
-extern triangle cubeTriangles[];
+typedef struct plane {
+    vertex normal;
+    float distance;
+} plane;
+
+typedef struct camera{
+    vertex location;
+    matrix4x4 rotationMatrix;
+    plane clippingPlanes[5];
+} cameraInstance;
+
+extern vertex cubeVertices[8];
+extern triangle cubeTriangles[11];
 
 extern Shape cube;
-extern Shape pyramid;
 
 void freeShape(Shape shape);
 Shape initializeShape(Shape shapeTemplate, color ofnewColor);
-vertex calculateCenterOfObject(vertex* vertices, int numberOfVertex);
 Object initializeObject(Object obj, Shape shape, color c);
 point ViewportToCanvas(point p);
 point projectVertex(vertex v);
 void RenderTriangle(triangle triangle, point *projected);
-void RenderObject(Shape shape);
-void localTranslateObject(Object *object, float x, float y, float z);
-void localScaleObject(Shape *shape, float scale);
-void localRotateObject(Shape *shape, float rotateX, float rotateY, float rotateZ);
-void RenderScene();
+void RenderObject(Shape shape, matrix4x4 transform);
+cameraInstance initializeCamera();
+void RenderScene(cameraInstance camera, Object *instances, int numberOfInstaces);
+void Render();
 
 #endif // CAMERA_H

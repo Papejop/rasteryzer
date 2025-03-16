@@ -2,7 +2,7 @@
 #define WINDOWBUFFER_H
 
 #include <windows.h>
-#include "camera.h"
+#include "3Dspace.h"
 
 typedef struct WindowBuffer
 {

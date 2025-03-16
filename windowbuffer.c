@@ -27,7 +27,8 @@ void InitializeBuffer(WindowBuffer* buffer, int width, int height)
 
 void FillBuffer(WindowBuffer* buffer)
 {
-    RenderScene();
+    Render();
+    //RenderScene();
     unsigned int* pixel = (unsigned int*)buffer->memory;
     unsigned char red;
     unsigned char green;

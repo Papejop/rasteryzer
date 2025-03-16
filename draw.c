@@ -68,11 +68,11 @@ void saveToPPM() {
 }
 
 void drawPixel(int y, int x, color color) {
-    int a,b;
+
     if (y < -HEIGHT/2 || y >= HEIGHT/2 - 1 || x < -WIDTH/2 || x >= WIDTH/2 - 1) {
         return;
     }
-    a=HEIGHT / 2 + y;  b=WIDTH / 2 + x;
+
     image[HEIGHT / 2 + y][WIDTH / 2 + x] = color;
 }
 
@@ -237,10 +237,11 @@ void drawShadedTriangle(point p0, point p1, point p2, color basicColor) {
 
 void drawWireFrameTriangle(point p0, point p1, point p2, color color)
 {
+    /*
     if (p0.y > p1.y) swap(&p0, &p1);
     if (p0.y > p2.y) swap(&p0, &p2);
     if (p1.y > p2.y) swap(&p1, &p2);
-
+    */
     drawLine(p0, p1, color);
     drawLine(p1, p2, color);
     drawLine(p2, p0, color);
